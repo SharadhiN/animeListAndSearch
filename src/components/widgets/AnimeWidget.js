@@ -40,18 +40,20 @@ const useStyles = makeStyles({
 
 const AnimeWidget = () => {
   // (local) states for infinite scroll & pagination. not concerned with any other component, hence maintained here outside of redux.
-  const [ scrollData, setScrollData ] = useState();
   const [ hasMore, setHasMore ] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
 
   const classes = useStyles();
-  const { animeData, dispatch } = useAnime();
+  const { animeData, dispatch, scrollData, setScrollData } = useAnime();
 
+  
   useEffect(() => {
     if ( animeData.pagination && animeData.pagination.current_page === (currentPage + 1) ) {
       console.log('Next Page Data!');
       setCurrentPage(animeData.pagination.current_page);
       loadMoreData();
+    } else if ( (animeData.data && animeData.data.length > 0 ) && ( !scrollData || scrollData.length === 0 ) ) {
+      setScrollData([ ...animeData.data ]);
     } else return;
   }, [animeData]);
 
@@ -60,11 +62,6 @@ const AnimeWidget = () => {
   if ( animeData.loading || Object.keys(animeData.data).length === 0 ) return <Loader />
 
   
-  // set initital scroll range.
-  if ( !scrollData || scrollData.length === 0 ) {
-    setScrollData([ ...animeData.data ]);
-  }
-
   const fetchMoreBooks = () => {
     const currentPage = animeData.pagination.current_page;
     const lastPage = animeData.pagination.last_visible_page;

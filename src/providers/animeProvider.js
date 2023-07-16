@@ -19,6 +19,8 @@ export const AnimeProvider = ({ children }) => {
     const [title, setTitle] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+    // const [searching, setSearching] = useState(false);
+    const [scrollData, setScrollData] = useState([]);
     
     const hideModal = () => {
         setModal(oldState => !oldState);
@@ -32,22 +34,25 @@ export const AnimeProvider = ({ children }) => {
 
     const searchByTitle = () => {
         if (title && title !== '') {
+            setScrollData([]);
             console.log('Searching by title: ' + title);
             dispatch(AnimeThunkActions.getAnimeByTitle({title}));
-        }
+        } else dispatch(AnimeThunkActions.getAllAnimes());
     }
     const searchByStartDate = () => {
         if (startDate && startDate !== '') {
+            setScrollData([]);
             console.log('Searching by startDate: ' + startDate);
             dispatch(AnimeThunkActions.getAnimeByStartDate({startDate}));
-        }
+        }else dispatch(AnimeThunkActions.getAllAnimes());
     }
 
     const searchByEndDate = () => {
         if (endDate && endDate !== '') {
+            setScrollData([]);
             console.log('Searching by endDate: ' + endDate);
             dispatch(AnimeThunkActions.getAnimeByEndDate({endDate}));
-        }
+        }else dispatch(AnimeThunkActions.getAllAnimes());
     }
 
     useEffect(() => {
@@ -72,7 +77,9 @@ export const AnimeProvider = ({ children }) => {
         setEndDate,
         searchByTitle,
         searchByStartDate,
-        searchByEndDate
+        searchByEndDate,
+        scrollData,
+        setScrollData
     }
 
     // wrap children with the provider to make the context available across children.

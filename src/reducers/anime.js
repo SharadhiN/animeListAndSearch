@@ -8,12 +8,6 @@ const initialState = {
     data: {}
 }
 
-const getAll = createAction('getAllAnimes');
-function isRejectedAction(action) {
-    return action.type.endsWith('rejected')
-}
-
-
 // use create slice w/
 // ! reducers: actions are created for each case reducer
 // ! extra reducers: reducers for external actions 
@@ -24,12 +18,14 @@ export const animeSlice = createSlice({
         setError: (state, action) => {
             const { payload } = action;
             state.error = payload;
+            return state;
         }
     },
     extraReducers: {
         [getAllAnimes.pending]: (state) => {
             state.error = undefined;
             state.loading = true;
+            return state;
         },
         [getAllAnimes.fulfilled]: (state, { payload }) => {
             console.log('All ANimes fulfilled');
@@ -47,10 +43,12 @@ export const animeSlice = createSlice({
                 state.error = message;
             }
             state.loading = false;
+            return state;
         },
         [getNextPage.pending]: (state) => {
             state.error = undefined;
             state.loading = true;
+            return state;
         },
         [getNextPage.fulfilled]: (state, { payload }) => {
             console.log('Got Next Page!');
@@ -67,6 +65,7 @@ export const animeSlice = createSlice({
                 state.error = message;
             }
             state.loading = false;
+            return state;
         },
         [getAnimeByTitle.pending]: (state) => {
             state.error = undefined;
@@ -75,7 +74,7 @@ export const animeSlice = createSlice({
         },
         [getAnimeByTitle.fulfilled]: (state, { payload }) => {
             state.loading = false;
-            state = payload;
+            state.data = payload;
             return state;
         },
         [getAnimeByTitle.rejected]: (state, { payload }) => {
