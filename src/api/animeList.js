@@ -5,19 +5,19 @@ export const getAnimeByTitle = async (title) => {
     console.log(title);
     let url = BASE_URL + '/anime?q=' + title;
     url = encodeURI(url);
-    return await fetchData(url);
+    return await fetchData(url, null);
 }
 
 export const getAnimeByStartDate = async (startDate) => {
     let url = BASE_URL + '/anime?start_date=' + startDate;
     url = encodeURI(url);
-    return await fetchData(url);
+    return await fetchData(url, null);
 }
 
 export const getAnimeByEndDate = async (endDate) => {
     let url = BASE_URL + '/anime?end_date=' + endDate;
     url = encodeURI(url);
-    return await fetchData(url);
+    return await fetchData(url, null);
 }
 
 export const getAllAnimes = async () => {
@@ -29,5 +29,5 @@ export const getAllAnimes = async () => {
 }
 
 export const getNextPage = async (url) => {
-    return await fetchData(url);
+    return await fetchData(url, null);
 }

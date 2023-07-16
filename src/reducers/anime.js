@@ -53,8 +53,9 @@ export const animeSlice = createSlice({
             state.loading = true;
         },
         [getNextPage.fulfilled]: (state, { payload }) => {
+            console.log('Got Next Page!');
             state.loading = false;
-            state.data = { ...state.data, ...payload};
+            state.data = payload;
             return state;
         },
         [getNextPage.rejected]: (state, { payload }) => {
@@ -74,7 +75,7 @@ export const animeSlice = createSlice({
         },
         [getAnimeByTitle.fulfilled]: (state, { payload }) => {
             state.loading = false;
-            state.data = payload;
+            state = payload;
             return state;
         },
         [getAnimeByTitle.rejected]: (state, { payload }) => {

@@ -7,9 +7,14 @@ import {
   Typography,
   CardContent,
   CardMedia,
-  capitalize
+  capitalize,
+  LinearProgress,
+  CircularProgress
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
+import { BASE_URL } from "../../utils/constants";
+import * as AnimeThunks from "../../thunks/animeList";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 
 const useStyles = makeStyles({
@@ -34,14 +39,57 @@ const useStyles = makeStyles({
 
 
 const AnimeWidget = () => {
+  // (local) states for infinite scroll & pagination. not concerned with any other component, hence maintained here outside of redux.
+  const [ scrollData, setScrollData ] = useState();
+  const [ hasMore, setHasMore ] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+
   const classes = useStyles();
-  const { animeData } = useAnime();
+  const { animeData, dispatch } = useAnime();
+
+  useEffect(() => {
+    if ( animeData.pagination && animeData.pagination.current_page === (currentPage + 1) ) {
+      console.log('Next Page Data!');
+      setCurrentPage(animeData.pagination.current_page);
+      loadMoreData();
+    } else return;
+  }, [animeData]);
+
 
   if ( !animeData.data ) return <Loader />
   if ( animeData.loading || Object.keys(animeData.data).length === 0 ) return <Loader />
 
+  
+  // set initital scroll range.
+  if ( !scrollData || scrollData.length === 0 ) {
+    setScrollData([ ...animeData.data ]);
+  }
+
+  const fetchMoreBooks = () => {
+    const currentPage = animeData.pagination.current_page;
+    const lastPage = animeData.pagination.last_visible_page;
+    if ( currentPage === lastPage ) {
+      setHasMore(false);
+      return;
+    }
+    let nextPageUrl = BASE_URL + `/anime?page=${currentPage + 1}`;
+    nextPageUrl = encodeURI(nextPageUrl);
+    dispatch(AnimeThunks.getNextPage({ nextPageUrl }));
+  };
+
+  const loadMoreData = () => {
+    console.log(scrollData.length);
+    let newScrollData = [ ...scrollData, ...animeData.data ];
+    console.log(newScrollData.length);
+    setScrollData([ ...newScrollData ]);
+  };
+
+  const lastRowHandler = () => {
+    fetchMoreBooks();
+  };
+
   const renderAnime = (index) => {
-    if ( !animeData.data || !animeData.data[index] ) return null;
+    if ( !scrollData || !scrollData[index] ) return null;
     let { 
       aired, 
       genres, 
@@ -54,7 +102,7 @@ const AnimeWidget = () => {
       title_english, 
       title_japanese, 
       trailer 
-    } = animeData.data[index];
+    } = scrollData[index];
     // console.log('Rendering');
     // console.log(animeData.data[index]);
     synopsis = synopsis ? synopsis.slice(0, 50) : '-';
@@ -92,23 +140,41 @@ const AnimeWidget = () => {
     );
   }
 
-  // useEffect(() => {
-  //   if ( !animeData.data || animeData.data.length == 0 ) {
-  //     dispatch(AnimeThunkActions.getAllAnimes());
-  //   }
 
-    
-  // }, []);
 
   return (
     <div>
       {
-        animeData.data && animeData.data.length > 0 &&
+        scrollData && scrollData.length > 0 ?
         (
-          <Grid container spacing={4} className={classes.animeArea}>
-              {animeData.data.map((anime, index) => renderAnime(index))}
-          </Grid>
+          <InfiniteScroll
+            dataLength={scrollData.length}
+            next={() => lastRowHandler()}
+            hasMore={hasMore}
+            loader={<LinearProgress />}
+            style={{ overflow: 'unset' }}
+            endMessage={
+              <p style={{ textAlign: 'center' }}>
+                <b>All Animes are loaded. Scroll back to top.</b>
+              </p>
+            }
+          >
+            <Grid container spacing={4} className={classes.animeArea}>
+              {scrollData.map((anime, index) => renderAnime(index))}
+            </Grid>
+          </InfiniteScroll>
         )
+        :
+        <CircularProgress
+          color={"success"}
+          className={classes.progress}
+          size={200}
+        />
+        // (
+        //   <Grid container spacing={4} className={classes.animeArea}>
+        //       {animeData.data.map((anime, index) => renderAnime(index))}
+        //   </Grid>
+        // )
       }
     </div>
   )

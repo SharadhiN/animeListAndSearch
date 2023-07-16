@@ -11,8 +11,13 @@ export const fetchData = async (url, options) => {
         // fetch(url, options).then(handleResponse)
         //                 .then(handleData)
         //                 .catch(handleError);
+        var rawResponse = null;
 
-        const rawResponse = await axios(url, options);
+        if ( !options ) {
+            rawResponse = await axios.get(url);
+        } else {
+            rawResponse = await axios(url, options);
+        }
         // const response = JSON.parse(rawResponse.data);
         console.log(rawResponse);
         console.log('Axios successful!');
