@@ -25,7 +25,6 @@ export const getAllAnimes = async () => {
 
     console.log('Dispatching network request');
     return await fetchData(url, null);
-
 }
 
 export const getNextPage = async (url) => {

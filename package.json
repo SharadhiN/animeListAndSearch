@@ -2,6 +2,7 @@
   "name": "anilist-unofficial",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -19,14 +20,18 @@
     "react-loader-spinner": "^5.3.4",
     "react-redux": "^8.1.1",
     "react-scripts": "5.0.1",
+    "react-test-renderer": "^18.2.0",
     "redux": "^4.2.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!ui-core)/\" --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "jest": {
+    "transform": {}
   },
   "eslintConfig": {
     "extends": [
@@ -45,5 +50,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.22.9",
+    "@babel/preset-react": "^7.22.5",
+    "babel-jest": "^29.6.1",
+    "jest-fetch-mock": "^3.0.3"
   }
 }
