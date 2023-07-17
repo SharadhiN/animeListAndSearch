@@ -22,21 +22,3 @@ export const fetchData = async (url, options) => {
     }
 
 }
-
-
-
-
-// function handleResponse(response) {
-//     return response.json().then(function (json) {
-//         return response.ok ? json : Promise.reject(json);
-//     });
-// }
-
-// function handleData(data) {
-//     console.log(data);
-// }
-
-// function handleError(error) {
-//     alert('Error, check console');
-//     console.error(error);
-// }
