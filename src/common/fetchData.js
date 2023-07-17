@@ -1,6 +1,3 @@
-// * GraphQL Query to get an anime by its id
-// Here I define my query as a multi-line string
-
 import axios from "axios";
 
 
