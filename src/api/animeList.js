@@ -20,10 +20,11 @@ export const getAnimeByEndDate = async (endDate) => {
     return await fetchData(url, null);
 }
 
-export const getAllAnimes = async () => {
+export const getAllAnimes = async (argUrl) => {
     const url = BASE_URL + '/anime';
 
     console.log('Dispatching network request');
+    if ( argUrl && argUrl !== "" && argUrl !== " " ) return await fetchData(argUrl, null);
     return await fetchData(url, null);
 }
 
