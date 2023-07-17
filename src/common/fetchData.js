@@ -6,11 +6,6 @@ import axios from "axios";
 
 export const fetchData = async (url, options) => {
     try {
-
-        // Make the HTTP Api request
-        // fetch(url, options).then(handleResponse)
-        //                 .then(handleData)
-        //                 .catch(handleError);
         var rawResponse = null;
 
         if ( !options ) {
@@ -18,15 +13,14 @@ export const fetchData = async (url, options) => {
         } else {
             rawResponse = await axios(url, options);
         }
-        // const response = JSON.parse(rawResponse.data);
-        console.log(rawResponse);
         console.log('Axios successful!');
 
+        if ( rawResponse.data?.status === 400  ) throw rawResponse.data;
         if ( rawResponse.status === 200 ) return rawResponse.data;
-        else throw rawResponse;
+        else throw rawResponse.data;
     } catch(e) {
-        alert("Error, check console.");
         console.log(e);
+        if (e.status === 400) console.log('Invalid Params.');
         throw e;
     }
 

@@ -17,8 +17,8 @@ describe("AnimesAPI", () => {
         fetchMock.resetMocks();
     });
 
-    //! RUN ONLY 2 TEST CASES AT A TIME TO NOT OVERLOAD THE API AND BLOCK ACCESS.
-    // ! TODO: INTRODUCE A TIME DELAY FOR EACH REQUEST. SO AS TO NOT OVERLOAD THE API AND BLOCK ACCESS.
+    // ! RUN ONLY 2 TEST CASES AT A TIME SO AS TO NOT OVERLOAD THE API AND BLOCK ACCESS.
+    // ! OR INTRODUCE A TIME DELAY FOR EACH REQUEST
 
     it("returns list of all Animes from Jikan API", async () => {
         fetch.mockResponseOnce(JSON.stringify(getAllAnimesMockedResponse));
@@ -27,7 +27,6 @@ describe("AnimesAPI", () => {
             //! update sample input if this test fails.
             expect(await apiResponse).toEqual(getAllAnimesMockedResponse);
         }, 1000);
-        
     })
 
     it("returns an error if invalid params are given", async () => {
