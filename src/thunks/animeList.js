@@ -3,15 +3,16 @@ import * as animeAPI from "../api/animeList";
 
 export const getAllAnimes = createAsyncThunk(
     'anime/getAllAnimes',
-    async () => {
+    async ({ argUrl }) => {
         console.log('Dispatched THunk.');
+        console.log('argUrl: ', argUrl);
         try {
-            return await animeAPI.getAllAnimes();
+            return await animeAPI.getAllAnimes(argUrl);
         } catch (e) {
             // alert("Check console.");
             console.log("Error with getAllAnimes Thunk!");
             console.log(e);
-            return e;
+            throw e;
         }
     }
 );
