@@ -8,7 +8,7 @@ export const getAllAnimes = createAsyncThunk(
         try {
             return await animeAPI.getAllAnimes();
         } catch (e) {
-            alert("Check console.");
+            // alert("Check console.");
             console.log("Error with getAllAnimes Thunk!");
             console.log(e);
             return e;
@@ -23,7 +23,7 @@ export const getNextPage = createAsyncThunk(
         try {
             return await animeAPI.getNextPage(nextPageUrl);
         } catch (e) {
-            alert("Check console.");
+            // alert("Check console.");
             console.log("Error with getNextPage Thunk!");
             console.log(e);
             return e;
@@ -38,7 +38,7 @@ export const getAnimeByTitle = createAsyncThunk(
             console.log(`Title Search: ${title}`);
             return await animeAPI.getAnimeByTitle(title);
         } catch (e) {
-            alert("Check console.");
+            // alert("Check console.");
             console.log("Error with getAnimeByTitle Thunk!");
             console.log(e);
             return e;
@@ -54,7 +54,7 @@ export const getAnimeByStartDate = createAsyncThunk(
             console.log('Start Date Filter: ', startDate);
             return await animeAPI.getAnimeByStartDate(startDate);
         } catch (e) {
-            alert("Check console.");
+            // alert("Check console.");
             console.log("Error with getAnimeByStartDate Thunk!");
             console.log(e);
             return e;
@@ -69,7 +69,7 @@ export const getAnimeByEndDate = createAsyncThunk(
             console.log('End Date Filter: ', endDate);
             return await animeAPI.getAnimeByEndDate(endDate);
         } catch (e) {
-            alert("Check console.");
+            // alert("Check console.");
             console.log("Error with getAnimeByEndDate Thunk!");
             console.log(e);
             return e;

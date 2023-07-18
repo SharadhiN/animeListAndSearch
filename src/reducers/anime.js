@@ -29,7 +29,7 @@ export const animeSlice = createSlice({
         },
         [getAllAnimes.fulfilled]: (state, { payload }) => {
             console.log('All ANimes fulfilled');
-            console.log(payload);
+            // console.log(payload);
             state.loading = false;
             state.data = payload;
             return state;

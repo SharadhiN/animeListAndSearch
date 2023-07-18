@@ -11,9 +11,10 @@ const Search = () => {
                     placeholder="Search by Title..."
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
+                    data-testid="input-search-by-title"
                 >
                 </input>
-                <button onClick={searchByTitle} className="my-first-step" >Search</button>
+                <button onClick={searchByTitle} data-testid="btn-search-title" >Search</button>
             </div>
             <div className="search">
                 <input
@@ -21,9 +22,10 @@ const Search = () => {
                     placeholder="Search by Start Date..."
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
+                    data-testid="input-search-by-start-date"
                 >
                 </input>
-                <button onClick={searchByStartDate}  >Search</button>
+                <button onClick={searchByStartDate} data-testid="btn-search-start-date" >Search</button>
             </div>
             <div className="search">
                 <input
@@ -31,9 +33,10 @@ const Search = () => {
                     placeholder="Search by End Date..."
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
+                    data-testid="input-search-by-end-date"
                 >
                 </input>
-                <button onClick={searchByEndDate} className="my-first-step" >Search</button>
+                <button onClick={searchByEndDate} data-testid="btn-search-end-date" >Search</button>
             </div>
         </>
     );

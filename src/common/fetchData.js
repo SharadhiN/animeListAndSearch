@@ -16,7 +16,7 @@ export const fetchData = async (url, options) => {
         if ( rawResponse.status === 200 ) return rawResponse.data;
         else throw rawResponse.data;
     } catch(e) {
-        console.log(e);
+        // console.log(e);
         if (e.status === 400) console.log('Invalid Params.');
         throw e;
     }

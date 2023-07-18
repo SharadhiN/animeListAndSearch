@@ -39,4 +39,71 @@ describe('Dashboard', () => {
 
         expect(modalCont).not.toBeVisible();
     });
+
+    describe("Search", () => {
+        it("filters results by title", async () => {
+
+            jest.spyOn(AnimeAPI, "getAnimeByTitle").mockImplementation(() => {
+                return Promise.resolve({ ...MockedResponse.titleSearchMockedResponse });
+            });
+
+            render(<Dashboard />, { wrapper });
+
+            const titleInput = screen.getByTestId("input-search-by-title");
+
+            const titleSearchBtn = screen.getByTestId("btn-search-title");
+
+            fireEvent.change(titleInput, { target: { value: 'bleach' } });
+
+
+            await act(async () => {
+                await fireEvent.click(titleSearchBtn);
+            });
+
+            expect(AnimeAPI.getAnimeByTitle).toHaveBeenCalled();
+        });
+
+
+        it("filters results start date", async () => {
+
+            jest.spyOn(AnimeAPI, "getAnimeByStartDate").mockImplementation(() => {
+                return Promise.resolve({ ...MockedResponse.startDateSearchMockedResponse });
+            });
+
+            render(<Dashboard />, { wrapper });
+
+            const startDateInput = screen.getByTestId("input-search-by-start-date");
+            const startDateSearchBtn = screen.getByTestId("btn-search-start-date");
+
+
+            fireEvent.change(startDateInput, { target: { value: '2018-01-01' } });
+
+            await act(async () => {
+                await fireEvent.click(startDateSearchBtn);
+            });
+
+            expect(AnimeAPI.getAnimeByStartDate).toHaveBeenCalled();
+        });
+
+        it("filters results end date", async () => {
+
+            jest.spyOn(AnimeAPI, "getAnimeByEndDate").mockImplementation(() => {
+                return Promise.resolve({ ...MockedResponse.endDateSearchMockedResponse });
+            });
+
+            render(<Dashboard />, { wrapper });
+
+            const endDateInput = screen.getByTestId("input-search-by-end-date");
+            const endDateSearchBtn = screen.getByTestId("btn-search-end-date");
+
+
+            fireEvent.change(endDateInput, { target: { value: '2018-01-01' } });
+
+            await act(async () => {
+                await fireEvent.click(endDateSearchBtn);
+            });
+
+            expect(AnimeAPI.getAnimeByEndDate).toHaveBeenCalled();
+        });
+    });
 });
